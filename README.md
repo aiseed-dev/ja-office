@@ -26,6 +26,7 @@ Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない
   ファイルをダブルクリックして、「ソフトウェア」から入れることもできます。土台(org.freedesktop.Platform 26.08)は
   Flathub から入ります。公式の Euro-Office とは別のアプリとして入るので、両方を使えます。
   自動では新しい版になりません。新しい版は、新しいファイルを入れ直します。
+  fcitx5 と Mozc で、日本語を入力できることを確かめました。
 - Ubuntu、Debian: `sudo apt install ./ja-office-fixes-euro-office_*.deb` で入れます。メニューに Euro-Office が出て、
   文書をダブルクリックで開けます。公式の Euro-Office の .deb と同じ場所に入るので、公式の版と入れ替わります。
   公式の版に戻すときは、公式の .deb を入れ直します。
@@ -340,7 +341,7 @@ Euro-Office 9.3.6 with the patches can be downloaded from the
 release by GitHub Actions (`.github/workflows/euro-office-release.yml`):
 
 - a `.flatpak` bundle (`flatpak install --user ./ja-office-fixes-euro-office-*.flatpak`; the runtime comes from
-  Flathub, and it sits beside the official Euro-Office);
+  Flathub, and it sits beside the official Euro-Office; Japanese input with fcitx5 and Mozc works in it);
 - a `.deb` for Ubuntu and Debian (`sudo apt install ./ja-office-fixes-euro-office_*.deb`; it takes the place of
   the official Euro-Office package);
 - a `.tar.xz` for other Linux (run `ja-office-fixes` in the folder);
