@@ -1,7 +1,7 @@
 # ja-office-fixes
 
 Euro-Office の文書エディターと表計算で、日本語の行の折り返し・縦書き・和暦・関数・漢数字・書体を直すパッチです。
-パッチを当てた Euro-Office 9.3.6(Linux 版、Windows 版、Mac 版)を、[Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
+パッチを当てた Euro-Office 9.3.8(Linux 版、Windows 版、Mac 版)を、[Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
 ダウンロードできます。
 同じパッチは、Euro-Office の元になった ONLYOFFICE にも当たります([参考: ONLYOFFICE に当てる](#参考-onlyoffice-に当てる))。
 Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない、独自の取り組みです。
@@ -10,19 +10,19 @@ Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない
 
 ## ダウンロード(Euro-Office)
 
-パッチを当てた Euro-Office 9.3.6 は、このリポジトリの [Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
+パッチを当てた Euro-Office 9.3.8 は、このリポジトリの [Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
 ダウンロードできます。組み立ては要りません。GitHub Actions(`.github/workflows/euro-office-release.yml`)が、
 公式の版にパッチを当てて作ります。
 
 | ファイル | 使う所 |
 |---|---|
-| `ja-office-fixes-euro-office-9.3.6-linux-x86_64.flatpak`(`-linux-aarch64`) | Flatpak の使える Linux |
-| `ja-office-fixes-euro-office_9.3.6-0+ja<日付>_amd64.deb`(`_arm64.deb`) | Ubuntu、Debian |
-| `ja-office-fixes-euro-office-9.3.6-linux-x86_64.tar.xz`(`-linux-aarch64`) | ほかの Linux |
-| `ja-office-fixes-euro-office-9.3.6-windows-x64.zip`(`-windows-arm64`) | Windows |
-| `ja-office-fixes-euro-office-9.3.6-macos-arm64.zip` | Mac(Apple シリコン) |
+| `ja-office-fixes-euro-office-9.3.8-linux-x86_64.flatpak`(`-linux-aarch64`) | Flatpak の使える Linux |
+| `ja-office-fixes-euro-office_9.3.8-0+ja<日付>_amd64.deb`(`_arm64.deb`) | Ubuntu、Debian |
+| `ja-office-fixes-euro-office-9.3.8-linux-x86_64.tar.xz`(`-linux-aarch64`) | ほかの Linux |
+| `ja-office-fixes-euro-office-9.3.8-windows-x64.zip`(`-windows-arm64`) | Windows |
+| `ja-office-fixes-euro-office-9.3.8-macos-arm64.zip` | Mac(Apple シリコン) |
 
-- Flatpak: `flatpak install --user ./ja-office-fixes-euro-office-9.3.6-linux-x86_64.flatpak` で入れます。
+- Flatpak: `flatpak install --user ./ja-office-fixes-euro-office-9.3.8-linux-x86_64.flatpak` で入れます。
   ファイルをダブルクリックして、「ソフトウェア」から入れることもできます。土台(org.freedesktop.Platform 26.08)は
   Flathub から入ります。公式の Euro-Office とは別のアプリとして入るので、両方を使えます。
   自動では新しい版になりません。新しい版は、新しいファイルを入れ直します。
@@ -166,7 +166,7 @@ Word は、漢字・かなと英字・数字の間を少し空けます(「日�
 
 ## 自分で組み立てる(Euro-Office)
 
-ダウンロードの代わりに、手元で公式の Euro-Office 9.3.6 にパッチを当てることもできます。
+ダウンロードの代わりに、手元で公式の Euro-Office 9.3.8 にパッチを当てることもできます。
 Linux(x86_64 と arm64)、Mac(Apple シリコン)、Windows(x64 と arm64)で使えます。
 Euro-Office の Mac 版は、Apple シリコン用だけです。
 
@@ -190,12 +190,12 @@ python3 build.py all
 このコマンドは、次のことを順に行います。
 
 1. Euro-Office のエディターのプログラム(sdkjs)、画面のプログラム(web-apps)、フォームの部品(sdkjs-forms)を、
-   Euro-Office 9.3.6 が使っている版で GitHub から取ってきます。
-2. 公式の Euro-Office 9.3.6 を GitHub から取ってきます。
-   - Linux: euro-office-euro-office-9.3.6-0-x86_64.tar.xz(約 500MB。arm64 は aarch64.tar.xz)を `work/euro-office/desktop/` に展開します。
-   - Mac: Euro-Office-DesktopEditors-9.3.6-0-macos-arm64.dmg(約 970MB)から、アプリを
+   Euro-Office 9.3.8 が使っている版で GitHub から取ってきます。
+2. 公式の Euro-Office 9.3.8 を GitHub から取ってきます。
+   - Linux: euro-office-euro-office-9.3.8-0-x86_64.tar.xz(約 480MB。arm64 は aarch64.tar.xz)を `work/euro-office/desktop/` に展開します。
+   - Mac: Euro-Office-DesktopEditors-9.3.8-0-macos-arm64.dmg(約 690MB)から、アプリを
      `~/Applications/Office (Euro-Office).app` に写します。
-   - Windows: Euro-Office-DesktopEditors-9.3.6-0-windows-x64.zip(約 1GB。arm64 は windows-arm64.zip)を
+   - Windows: Euro-Office-DesktopEditors-9.3.8-0-windows-x64.zip(約 770MB。arm64 は windows-arm64.zip)を
      `work\euro-office\desktop\Euro-Office\` に展開します。
 3. パッチを当てて、文書エディターと表計算のエディターと、文書エディターの画面を組み立てます。
    組み立てでは、npm の部品(約 115MB)を取ってきます。
@@ -213,7 +213,7 @@ Mac では、アプリの中身を変えると公式の署名が合わなくな�
 そこで `build.py` は、この Mac だけで使う署名をし直し、ダウンロードの検疫の印を外します。
 `~/Applications` に Euro-Office でない「Office (Euro-Office).app」があるときは、止まります。
 
-Windows 版は、Windows 11(x64、日本語)の仮想マシンで確かめました。
+Windows 版は、9.3.6 のときに、Windows 11(x64、日本語)の仮想マシンで確かめました。
 Git for Windows、Python 3.13、Node.js 24 を入れて `python3 build.py all` を実行し、最後まで通りました。
 パッチを当てたアプリで、禁則、日本語と英数字の間、表計算の関数が直っていることを画面で見ました。
 Mac 版は、まだ実際の Mac で動かしていません。
@@ -233,7 +233,7 @@ Mac 版は、まだ実際の Mac で動かしていません。
 ## 確かめ方
 
 - `tests/documents/` の docx と xlsx を、直す前と直した後で印刷して比べました(上の画像は ONLYOFFICE で撮った物です)。
-- Euro-Office 9.3.6 の Linux 版で、`tests/documents/` の文書を開き、直す前と後の画面を比べました。
+- Euro-Office の Linux 版で、`tests/documents/` の文書を開き、直す前と後の画面を比べました(9.3.6)。9.3.8 では、関数と禁則の画面を確かめました。
   折り返し、禁則、セルとテキストボックスの縦書き、和暦、日本語の関数、日本語と英数字の間は、直した後の形になりました。
 - sdkjs にもともとある組版の試験(段落・表・ハイフネーション・文字の組み立て・図の配置)を、node で回せるようにしました。
   パッチを当てても、すべて通ります。足した日本語の試験は、パッチの前は落ち、後は通ります。
@@ -308,7 +308,7 @@ Mac(Apple シリコンか Intel)、git、Python 3.12 以上、Node.js、ディ�
   Euro-Office の sdkjs では、変える所の近くのコメントがロシア語のことがあります。
   そこで `git am -C1` で当てます。前後の文脈が 1 行ずつ合えば当たります。
 - ONLYOFFICE 9.4.0 は、sdkjs を sdkjs の `build/build.py` で、web-apps を grunt で組み立てます。
-  Euro-Office 9.3.6 は、どちらも webpack で組み立てます。
+  Euro-Office 9.3.8 は、どちらも webpack で組み立てます。
 - Euro-Office の公式の文書エディターにはフォームの部品(sdkjs-forms)が入っているので、組み立てにも入れます。
 - ONLYOFFICE の Windows 版には対応していません。
 
@@ -329,14 +329,14 @@ Mac(Apple シリコンか Intel)、git、Python 3.12 以上、Node.js、ディ�
 
 ## English
 
-Patches for the document and spreadsheet editors of Euro-Office 9.3.6 that fix Japanese line breaking, vertical
+Patches for the document and spreadsheet editors of Euro-Office 9.3.8 that fix Japanese line breaking, vertical
 writing, dates in the Japanese era, Japanese text functions, Japanese numerals and the Japanese theme fonts.
 Euro-Office with the patches can be downloaded for Linux, Windows and a Mac. The same patches apply to ONLYOFFICE
 Desktop Editors 9.4.0, from which Euro-Office was forked. Not affiliated with Euro-Office or with Ascensio System SIA.
 
 ### Download (Euro-Office)
 
-Euro-Office 9.3.6 with the patches can be downloaded from the
+Euro-Office 9.3.8 with the patches can be downloaded from the
 [Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) of this repository, built from the official
 release by GitHub Actions (`.github/workflows/euro-office-release.yml`):
 
@@ -395,7 +395,7 @@ whole section, ruby and keeping furigana, is not fixed here.
 
 ### Build it yourself (Euro-Office)
 
-`build.py` patches the official Euro-Office 9.3.6 on your machine,
+`build.py` patches the official Euro-Office 9.3.8 on your machine,
 on Linux (x86_64 and arm64), a Mac (Apple silicon) or Windows (x64 and arm64). You need git, Python 3.12 or later
 and Node.js (node, npm and npx).
 
@@ -405,21 +405,21 @@ cd ja-office-fixes
 python3 build.py all
 ```
 
-It fetches Euro-Office's sdkjs, web-apps and sdkjs-forms at the commits of the 9.3.6 release, the official
+It fetches Euro-Office's sdkjs, web-apps and sdkjs-forms at the commits of the 9.3.8 release, the official
 package and the npm packages of the builds (about 115 MB) into `work/euro-office/` (about 5.2 GB in all on
 Linux), patches and builds the document and spreadsheet editors and the document editor's screen, and puts
 them into the app:
 
-- Linux: euro-office-euro-office-9.3.6-0-x86_64.tar.xz (about 500 MB) is unpacked, and
+- Linux: euro-office-euro-office-9.3.8-0-x86_64.tar.xz (about 480 MB) is unpacked, and
   "ja-office-fixes (Euro-Office)" is added to the menu and opens documents (docx, doc, odt, rtf) on a double-click.
-- Mac: the app of Euro-Office-DesktopEditors-9.3.6-0-macos-arm64.dmg (about 970 MB) is copied into
+- Mac: the app of Euro-Office-DesktopEditors-9.3.8-0-macos-arm64.dmg (about 690 MB) is copied into
   `~/Applications/Office (Euro-Office).app` and signed again for this Mac only, with the quarantine mark taken off.
-- Windows: Euro-Office-DesktopEditors-9.3.6-0-windows-x64.zip (about 1 GB) is unpacked into
+- Windows: Euro-Office-DesktopEditors-9.3.8-0-windows-x64.zip (about 770 MB) is unpacked into
   `work\euro-office\desktop\Euro-Office\`, and "ja-office-fixes (Euro-Office)" is added to the Start menu.
   Keep the repository near the root of a drive (`C:\src\ja-office-fixes`), as some paths are long.
 
 An installed Euro-Office is not changed. `run`, `restore`, `install`, `unmenu` and `package` (which makes the
-downloads in `dist/`) work the same way. The Windows steps ran through on Windows 11 (x64)
+downloads in `dist/`) work the same way. The Windows steps ran through (with 9.3.6) on Windows 11 (x64)
 with Git for Windows, Python 3.13 and Node.js 24; the Mac steps have not been run on a real Mac yet.
 
 ### Reference: ONLYOFFICE

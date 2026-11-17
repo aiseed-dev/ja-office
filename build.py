@@ -14,7 +14,7 @@
     python3 build.py package   # pack the installed app for download into dist/
                                # (see "Downloads" below)
 
-Each command works on Euro-Office 9.3.6 (Linux, Mac or Windows), in
+Each command works on Euro-Office 9.3.8 (Linux, Mac or Windows), in
 work/euro-office/; see "Euro-Office" below. With --target onlyoffice, it
 works on ONLYOFFICE Desktop Editors 9.4.0 (Linux or Mac) instead, in work/,
 as described first here (it was the default before 2026-11-04).
@@ -82,18 +82,20 @@ presentation editor is the official one.
 
 ## Euro-Office
 
-Euro-Office 9.3.6 is built from the commits its DesktopEditors tag v9.3.6
+Euro-Office 9.3.8 is built from the commits its DesktopEditors tag v9.3.8
 names (REFS). Everything goes into work/euro-office/:
 
 * sdkjs, web-apps and sdkjs-forms at those commits, fetched with --depth 1,
   and the npm packages of the sdkjs and web-apps builds (about 115 MB)
-* desktop: on Linux, the official package (euro-office-euro-office-9.3.6-0-x86_64.tar.xz,
-  about 500 MB) unpacked; the app is in desktop/opt/euro-office/euro-office.
-  On Windows, the official zip (Euro-Office-DesktopEditors-9.3.6-0-windows-x64.zip,
-  about 1 GB) unpacked into desktop/Euro-Office, the folder the installer makes.
-  On a Mac, the app of Euro-Office-DesktopEditors-9.3.6-0-macos-arm64.dmg (about
-  970 MB) goes into ~/Applications/Office (Euro-Office).app, as for ONLYOFFICE;
-  there is no Euro-Office for Intel Macs
+* desktop: on Linux, the official package (euro-office-euro-office-9.3.8-0-x86_64.tar.xz,
+  about 480 MB) unpacked; the app is in desktop/opt/euro-office/euro-office.
+  On Windows, the official zip (Euro-Office-DesktopEditors-9.3.8-0-windows-x64.zip,
+  about 770 MB) unpacked into desktop/Euro-Office, the folder the installer makes.
+  On a Mac, the app of Euro-Office-DesktopEditors-9.3.8-0-macos-arm64.dmg (about
+  690 MB) goes into ~/Applications/Office (Euro-Office).app, as for ONLYOFFICE;
+  there is no Euro-Office for Intel Macs. When VERSION goes up, fetch finds no
+  download of the new release in work/euro-office/ and unpacks it in place of
+  the old one
 
 The patches are the same for both. Some comments next to the changes are in
 Russian in Euro-Office's sdkjs, where ONLYOFFICE has them in English, so git
@@ -121,14 +123,14 @@ commits in REFS are fixed, so the result is always the same.
 ## Downloads
 
 package packs the installed Euro-Office into dist/ for download:
-ja-office-fixes-euro-office-9.3.6-<platform>.tar.xz on Linux (with a
+ja-office-fixes-euro-office-<version>-<platform>.tar.xz on Linux (with a
 launcher, ja-office-fixes, as the package's usr/bin one), .zip on Windows and
 a zip of the app on a Mac (signed again ad hoc, as for install). On Linux it
-also makes ja-office-fixes-euro-office_9.3.6-0+ja<date>_<arch>.deb: the
+also makes ja-office-fixes-euro-office_<version>-0+ja<date>_<arch>.deb: the
 official deb with the files install changes put in, and its control renamed
 to conflict with and replace the official package (the same paths, so its
 launcher, menu entry and file types stay), and
-ja-office-fixes-euro-office-9.3.6-linux-<arch>.flatpak: the app built by
+ja-office-fixes-euro-office-<version>-linux-<arch>.flatpak: the app built by
 flatpak/io.github.aiseed_dev.JaOfficeFixes.yml on org.freedesktop.Platform,
 with krb5 (Qt's network library needs libgssapi_krb5, which the runtime
 lacks); installing the bundle gets the runtime from Flathub. Each has
@@ -178,11 +180,11 @@ if EURO and MAC and not ARM:
 
 ROOT = pathlib.Path(__file__).resolve().parent
 if EURO:
-    # The desktop release and the commits its tag v9.3.6 names
-    VERSION = "9.3.6"
+    # The desktop release and the commits its tag v9.3.8 names
+    VERSION = "9.3.8"
     GITHUB = "https://github.com/Euro-Office"
-    REFS = {"sdkjs": "40d9b7780f11a5cadc259f9b9815a364de8caa96",
-            "web-apps": "ce0ba49545810a56a3878081ab762c6a7ae8dd4e",
+    REFS = {"sdkjs": "a1b8cac5d1bc575a0a28d8628d4bd30757b1e908",
+            "web-apps": "f8d4506c130d06f9939dee66f939e0e5bce13b99",
             "sdkjs-forms": "5c2f5a010dae3581adda34d9bab20b1903c94081"}
     RELEASE = f"{GITHUB}/DesktopEditors/releases/download/v{VERSION}"
     if MAC:
@@ -314,6 +316,12 @@ def fetch() -> None:
             run("git", "clone", "--depth", "1", "--branch", REFS[repo.name], f"{GITHUB}/{repo.name}", str(repo))
     if MAC:
         ours_or_exit()
+    if APP.exists() and not (WORK / PACKAGE_URL.rsplit("/", 1)[1]).exists():
+        # The app is from another release (VERSION went up): the new one takes its place
+        print("the release changed: replacing", APP)
+        if MAC:
+            shutil.rmtree(APP)
+        shutil.rmtree(PKG)
     if not APP.exists():
         archive = download(PACKAGE_URL)
         PKG.mkdir(exist_ok=True)

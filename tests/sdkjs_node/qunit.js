@@ -9,7 +9,7 @@ g.$ = function (f) { if (typeof f === "function") f(); return g.$; };
 g.QUnit = {
   module(name, h) { mod = name; hooks = (typeof h === "object" && h) || {}; if (typeof h === "function") h(hooks); },
   test(name, fn) { tests.push({ mod, name, fn, hooks }); },
-  config: {}, assert: {}
+  config: {}, assert: {}, start() {}
 };
 for (const f of process.argv.slice(2)) vm.runInThisContext(fs.readFileSync(f, "utf8"), { filename: f });
 let pass = 0, fail = 0;

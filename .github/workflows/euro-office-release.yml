@@ -24,7 +24,7 @@ jobs:
         run: |
           gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 ||
             gh release create "$GITHUB_REF_NAME" --draft --title "$GITHUB_REF_NAME" \
-              --notes "Euro-Office 9.3.6 with the Japanese patches of ja-office-fixes. Not an official Euro-Office build; see JA-OFFICE-FIXES.txt in each download."
+              --notes "Euro-Office 9.3.8 with the Japanese patches of ja-office-fixes. Not an official Euro-Office build; see JA-OFFICE-FIXES.txt in each download."
 
   package:
     needs: release

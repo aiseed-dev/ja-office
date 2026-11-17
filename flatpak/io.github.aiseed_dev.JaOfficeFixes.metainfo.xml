@@ -25,6 +25,7 @@
   <url type="bugtracker">https://github.com/aiseed-dev/ja-office-fixes/issues</url>
   <content_rating type="oars-1.1"/>
   <releases>
+    <release version="9.3.8" date="2026-11-17"/>
     <release version="9.3.6" date="2026-11-03"/>
   </releases>
 </component>
