@@ -336,6 +336,7 @@ Mac(Apple シリコンか Intel)、git、Python 3.12 以上、Node.js、ディ�
 - ONLYOFFICE の、手を入れた実行ファイルは配りません。ONLYOFFICE の追加の条件は、ロゴを残すことを求め、名前を使う権利を与えていないためです。
 - 1 つ目のパッチは、Yuito Murase さん(zeptometer)が ONLYOFFICE に出した
   [ONLYOFFICE/sdkjs#4885](https://github.com/ONLYOFFICE/sdkjs/pull/4885) と同じ直しに、試験を足したものです。
+- パッチとスクリプトは、AI(Anthropic の Claude Code)を使って作りました。何を直すかは人が決め、答えは Word と Excel に合わせて確かめました。
 
 詳しくは [NOTICE.md](NOTICE.md) をご覧ください。
 
@@ -461,3 +462,5 @@ downloads the official ONLYOFFICE and applies the patches on your machine.
 
 The patches are AGPL-3.0, like the code they change. ONLYOFFICE is a trademark of Ascensio System SIA.
 The first patch is the change of ONLYOFFICE/sdkjs#4885 by Yuito Murase (zeptometer), with tests.
+The patches and the scripts were made with the help of AI (Anthropic's Claude Code); people decided what to fix,
+and the answers were checked against Word and Excel.
