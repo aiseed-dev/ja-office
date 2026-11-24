@@ -1,6 +1,6 @@
 # ja-office-fixes
 
-Euro-Office の文書エディターと表計算で、日本語の行の折り返し・縦書き・和暦・関数・漢数字・書体を直すパッチです。
+Euro-Office の文書エディターと表計算で、日本語の行の折り返し・縦書き・和暦・関数・漢数字・書体と、Markdown の開き方を直すパッチです。
 パッチを当てた Euro-Office 9.3.8(Linux 版、Windows 版、Mac 版)を、[Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
 ダウンロードできます。
 同じパッチは、Euro-Office の元になった ONLYOFFICE にも当たります([参考: ONLYOFFICE に当てる](#参考-onlyoffice-に当てる))。
@@ -23,7 +23,7 @@ Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない
 | `ja-office-fixes-euro-office-9.3.8-macos-arm64.zip` | Mac(Apple シリコン) |
 
 - Flatpak: `flatpak install --user ./ja-office-fixes-euro-office-9.3.8-linux-x86_64.flatpak` で入れます。
-  ファイルをダブルクリックして、「ソフトウェア」から入れることもできます。土台(org.freedesktop.Platform 26.08)は
+  ファイルをダブルクリックして、「ソフトウェア」から入れることもできるはずです(試していません)。土台(org.freedesktop.Platform 26.08)は
   Flathub から入ります。公式の Euro-Office とは別のアプリとして入るので、両方を使えます。
   自動では新しい版になりません。新しい版は、新しいファイルを入れ直します。
   fcitx5 と Mozc で、日本語を入力できることを確かめました。
@@ -34,7 +34,8 @@ Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない
 - Windows: 展開したフォルダーの `DesktopEditors.exe` を実行します。
 - Mac: 展開した「Office (Euro-Office).app」を「アプリケーション」に入れます。この Mac 用の署名ではないので、
   初めの 1 回は、ターミナルで `xattr -dr com.apple.quarantine "/Applications/Office (Euro-Office).app"` を実行してから開きます。
-- Mac 版と、arm(aarch64、arm64)の版は、まだ実際の機械で動かしていません。
+- 確かめたのは、Linux(x86_64)の Flatpak と tar.xz です。.deb は、Debian 13 で入れられるかの試しだけをしました。
+  Windows 版は 9.3.6 のときに確かめました。Mac 版と、arm(aarch64、arm64)の版は、まだ実際の機械で動かしていません。
 
 ダウンロードは、Euro-Office の公式の版ではありません。中の `JA-OFFICE-FIXES.txt` に、変えた所、日付、元のコードの場所を書いています。
 
@@ -184,7 +185,7 @@ Euro-Office の Mac 版は、Apple シリコン用だけです。
 - git(Windows は Git for Windows)
 - Python 3.12 以上
 - Node.js(`node`、`npm`、`npx`。組み立てに使います)
-- ディスクの空き 約 5.2GB(Linux)
+- ディスクの空き 約 6GB(Linux。ダウンロード用のファイルも作るときは、さらに約 6GB)
 - Linux: xdg-utils(ダブルクリックで開くアプリを設定するのに使います。無いときは、この設定だけを飛ばします)
 - Windows: 長いパスを扱えるように、リポジトリはドライブの近く(`C:\src\ja-office-fixes` など)に置いてください。
 
@@ -237,15 +238,17 @@ Mac 版は、まだ実際の Mac で動かしていません。
 - パッチを当てた物に戻す: `python3 build.py install`
 - メニューから外す: `python3 build.py unmenu`。文書をダブルクリックしたときに開くアプリも、システムの既定に戻します。
   その後、このリポジトリのフォルダーを消せば、使うのをやめられます。
-- ダウンロード用のファイルを作る: `python3 build.py package`(`dist/` にできます)
+- ダウンロード用のファイルを作る: `python3 build.py package`(`dist/` にできます)。
+  Linux では、.deb を作るのに dpkg-deb を、.flatpak を作るのに flatpak と flatpak-builder(か Flatpak の org.flatpak.Builder)を使います。
 
 ## 確かめ方
 
 - `tests/documents/` の docx と xlsx を、直す前と直した後で印刷して比べました(上の画像は ONLYOFFICE で撮った物です)。
-- Euro-Office の Linux 版で、`tests/documents/` の文書を開き、直す前と後の画面を比べました(9.3.6)。9.3.8 では、関数と禁則の画面を確かめました。
+- Euro-Office 9.3.6 の Linux 版で、`tests/documents/` の文書を開き、直す前と後の画面を比べました。
   折り返し、禁則、セルとテキストボックスの縦書き、和暦、日本語の関数、日本語と英数字の間は、直した後の形になりました。
+- Euro-Office 9.3.8 では、Linux 版と Flatpak で、表計算の関数、禁則、Markdown の画面を確かめました。
 - sdkjs にもともとある組版の試験(段落・表・ハイフネーション・文字の組み立て・図の配置)を、node で回せるようにしました。
-  パッチを当てても、すべて通ります。足した日本語の試験は、パッチの前は落ち、後は通ります。
+  パッチの前と後で、結果は同じです(ハイフネーションの 6 件は、パッチの前から落ちます)。足した日本語の試験は、パッチの前は落ち、後は通ります。
 - 表計算の表示形式と文字列の関数の試験も、node で回せます。和暦、日本語の関数、漢数字の試験を足しました。
   NUMBERSTRING、DATESTRING、YEN(DOLLAR)、PHONETIC の試験も足しました。答えは、Windows の Excel に計算させた値です。
   漢数字の試験の答えは、Mac の Excel に印刷させて確かめた値です。
@@ -257,7 +260,7 @@ SDKJS_PRODUCT=cell node tests/sdkjs_node/qunit.js work/euro-office/sdkjs/tests/c
 SDKJS_PRODUCT=cell node tests/sdkjs_node/qunit.js work/euro-office/sdkjs/tests/cell/spreadsheet-calculation/formula-tests/textAndDataTests.js
 ```
 
-ONLYOFFICE の sdkjs で回すときは、`SDKJS=work/sdkjs` を前に付けます。
+ONLYOFFICE の sdkjs で回すときは、`SDKJS=work/sdkjs` を前に付け、試験のファイルも `work/sdkjs` の物にします。
 
 ## まだ直していないこと
 
@@ -341,7 +344,8 @@ Mac(Apple シリコンか Intel)、git、Python 3.12 以上、Node.js、ディ�
 ## English
 
 Patches for the document and spreadsheet editors of Euro-Office 9.3.8 that fix Japanese line breaking, vertical
-writing, dates in the Japanese era, Japanese text functions, Japanese numerals and the Japanese theme fonts.
+writing, dates in the Japanese era, Japanese text functions, Japanese numerals, the Japanese theme fonts and the way
+Markdown opens.
 Euro-Office with the patches can be downloaded for Linux, Windows and a Mac. The same patches apply to ONLYOFFICE
 Desktop Editors 9.4.0, from which Euro-Office was forked. Not affiliated with Euro-Office or with Ascensio System SIA.
 
@@ -360,7 +364,8 @@ release by GitHub Actions (`.github/workflows/euro-office-release.yml`):
 - a `.zip` for a Mac with Apple silicon (move "Office (Euro-Office).app" to Applications and run
   `xattr -dr com.apple.quarantine "/Applications/Office (Euro-Office).app"` once).
 
-The Mac and arm builds have not been run on real machines yet. They are not official Euro-Office builds;
+The x86_64 Flatpak and tar.xz were tried on Linux, the deb only in apt's simulation on Debian 13, and Windows with
+9.3.6; the Mac and arm builds have not been run on real machines yet. They are not official Euro-Office builds;
 JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
 
 ### What is fixed
@@ -420,8 +425,8 @@ python3 build.py all
 ```
 
 It fetches Euro-Office's sdkjs, web-apps and sdkjs-forms at the commits of the 9.3.8 release, the official
-package and the npm packages of the builds (about 115 MB) into `work/euro-office/` (about 5.2 GB in all on
-Linux), patches and builds the document and spreadsheet editors and the document editor's screen, and puts
+package and the npm packages of the builds (about 115 MB) into `work/euro-office/` (about 6 GB in all on
+Linux, and about 6 GB more for `package`), patches and builds the document and spreadsheet editors and the document editor's screen, and puts
 them into the app:
 
 - Linux: euro-office-euro-office-9.3.8-0-x86_64.tar.xz (about 480 MB) is unpacked, and
@@ -439,15 +444,15 @@ with Git for Windows, Python 3.13 and Node.js 24; the Mac steps have not been ru
 ### Reference: ONLYOFFICE
 
 The same patches apply to ONLYOFFICE Desktop Editors 9.4.0 (sdkjs tag v9.4.0.129): add `--target onlyoffice`
-to the commands of `build.py` (it was the default until 2026-11-04). No modified ONLYOFFICE binaries are distributed, as ONLYOFFICE's additional terms ask to keep
-its logo and give no right to its name: `build.py` downloads the official ONLYOFFICE and applies the patches on
-your machine.
+to the commands of `build.py` (it was the default until 2026-11-04). No modified ONLYOFFICE binaries are
+distributed, as ONLYOFFICE's additional terms ask to keep its logo and give no right to its name: `build.py`
+downloads the official ONLYOFFICE and applies the patches on your machine.
 
-- Linux (x86_64): `python3 build.py all --target onlyoffice` fetches sdkjs, web-apps and the official package 9.4.0 into `work/`,
-  patches them, adds "ja-office-fixes" to the menu and makes it open documents on a double-click. An installed
+- Linux (x86_64): `python3 build.py all --target onlyoffice` fetches sdkjs, web-apps and the official package
+  9.4.0 into `work/`, patches them, adds "ja-office-fixes" to the menu and makes it open documents on a double-click. An installed
   ONLYOFFICE is not changed. You need about 3.8 GB of free disk space.
-- Mac (Apple silicon or Intel): `python3 build.py all --target onlyoffice` copies the app of the official disk image 9.4.0 into
-  `~/Applications/Office.app` under the name "Office", patches it and signs it again for this Mac only.
+- Mac (Apple silicon or Intel): `python3 build.py all --target onlyoffice` copies the app of the official disk
+  image 9.4.0 into `~/Applications/Office.app` under the name "Office", patches it and signs it again for this Mac only.
   `/Applications/ONLYOFFICE.app` is not changed, but the two apps share their settings. On the first start, choose
   not to check for updates: an update installs the official app, without the patches.
 - `run`, `restore`, `install`, `menu` and `unmenu` work as for Euro-Office, with `--target onlyoffice`.
