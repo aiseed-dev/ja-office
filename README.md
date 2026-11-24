@@ -170,11 +170,15 @@ Word は、漢字・かなと英字・数字の間を少し空けます(「日�
 ### Markdown(文書)
 
 Markdown(.md)は、変換器が HTML を通して文書にします。そのとき、すべての字が Arial になり、言語は英語(日本語の部分は中国語)になります。
-字の大きさは、ふつうの段落が 10pt、番号リストと箇条書きが 12pt で、そろっていません。
+用紙はレターです。字の大きさは、ふつうの段落が 10pt、番号リストと箇条書きが 12pt で、そろっていません。
 
 - .md を開いたときは、日本語の文書として扱います。言語を日本語にし、日本語の書体を BIZ UDゴシックにします。英字は Arial のままです。
 - 本文、番号リスト、箇条書き、表のセルの字の大きさを、10.5pt にそろえます。見出しの大きさは変えません。
+- 用紙を A4 にします。
 - デスクトップ版は、.md を docx として開くので、文書の名前の `.md` で見分けます。
+- デスクトップ版は、保存や PDF への書き出しのとき、開いたファイルにエディターでの変更を当てます。そのため、この直しも開いた後の変更として行います。
+  .md を開くと、文書は「変更あり」になります。閉じるときに保存を聞かれたら、保存しなくてかまいません。
+- Windows 11 で、.md を開いて PDF に書き出し、A4、10.5pt、BIZ UDゴシックになることを確かめました。
 
 ## 自分で組み立てる(Euro-Office)
 
@@ -409,8 +413,10 @@ JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
   by default and the minus after the yen sign (¥1,235, ¥-1,234.57). JIS is kept as DBCS in files, as Excel does;
   the answers are those of Excel for Windows in Japanese.
 - A Markdown file (.md) opened in the desktop app is set as a Japanese document: Japanese as the language,
-  BIZ UDGothic for Japanese text (Latin text stays in Arial), and 10.5pt for paragraphs, numbered and bullet
-  lists and table cells alike (the converter's HTML gives 10pt and 12pt, all in Arial, in English).
+  BIZ UDGothic for Japanese text (Latin text stays in Arial), 10.5pt for paragraphs, numbered and bullet
+  lists and table cells alike, and A4 paper (the converter's HTML gives 10pt and 12pt, all in Arial, in
+  English, on Letter). It is done as a change after opening, as the desktop app saves and exports (to PDF too)
+  the file it opened with the changes made in the editor, so the document opens as changed.
 
 Only the editors (sdkjs and web-apps) are changed. What needs the converter (core), such as vertical text for a
 whole section, ruby and keeping furigana, is not fixed here.

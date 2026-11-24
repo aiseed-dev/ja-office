@@ -1,0 +1,81 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yasuhiro Niji <aiseed-dev@users.noreply.github.com>
+Date: Tue, 24 Nov 2026 14:00:49 +0900
+Subject: [PATCH] [de] Set Markdown in Japanese, in 10.5pt, lists too, on A4
+
+Markdown comes through the converter's HTML, which sets everything in
+Arial (Japanese text too), in English with Chinese for East Asian text,
+on Letter paper, leaves the size of paragraphs to the editor's default
+(10pt) and gives numbered and bullet lists the 12pt of its "normal"
+style. The desktop app opens it as that docx, so the editor knows it by
+the .md of the title. A Markdown file opened here is Japanese: once it
+is open, one action gives its styles Japanese as the language and
+BIZ UDGothic for East Asian text, makes 10.5pt the default size and that
+of the default paragraph style, and sets the page to A4. It is an
+action, as the desktop app saves and exports (to PDF too) the file it
+opened with the changes of the editor; the document opens as changed.
+Headings keep their sizes, which their character styles give.
+---
+ word/api.js | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
+
+diff --git a/word/api.js b/word/api.js
+index 957bd67..ff29668 100644
+--- a/word/api.js
++++ b/word/api.js
+@@ -1439,6 +1439,45 @@ background-repeat: no-repeat;\
+ 		g_oIdCounter.Set_Load(true);
+ 		AscFonts.IsCheckSymbols = true;
+ 	};
++	// Markdown comes through the converter's HTML, which sets everything in
++	// Arial (Japanese too), in English with Chinese for East Asian text, on
++	// Letter paper, leaves the size of paragraphs to the editor's default (10pt)
++	// and gives lists the 12pt of its "normal" style. A Markdown file opened
++	// here is Japanese: set it in 10.5pt, in Japanese, with BIZ UDGothic for the
++	// Japanese text, on A4. This is an action of its own, as the desktop app
++	// saves and exports the file it opened with the changes of the editor, so
++	// the document opens as changed.
++	function SetMarkdownJapanese(logicDocument)
++	{
++		var styles = logicDocument.Styles;
++		function japanese(textPr, size)
++		{
++			var copy = textPr.Copy();
++			if (copy.RFonts.EastAsia)
++				copy.RFonts.EastAsia = {Name : "BIZ UDゴシック", Index : -1};
++			if (undefined !== copy.Lang.Val)
++				copy.Lang.Val = lcid_jaJP;
++			if (undefined !== copy.Lang.EastAsia)
++				copy.Lang.EastAsia = lcid_jaJP;
++			if (size)
++			{
++				copy.FontSize   = size;
++				copy.FontSizeCS = size;
++			}
++			return copy;
++		}
++		logicDocument.StartAction(AscDFH.historydescription_Document_SetDefaultLanguage);
++		for (var id in styles.Style)
++		{
++			var textPr = styles.Style[id].TextPr;
++			var isNormal = id === styles.Default.Paragraph;
++			if (isNormal || textPr.RFonts.EastAsia || undefined !== textPr.Lang.Val || undefined !== textPr.Lang.EastAsia)
++				styles.Style[id].Set_TextPr(japanese(textPr, isNormal ? 10.5 : 0));
++		}
++		styles.Set_DefaultTextPr(japanese(styles.Default.TextPr, 10.5));
++		logicDocument.SectPr.SetPageSize(210, 297);
++		logicDocument.FinalizeAction();
++	}
+ 	function AfterOpenDocument(data, size)
+ 	{
+ 		if (History && History.Update_FileDescription)
+@@ -8252,6 +8291,9 @@ background-repeat: no-repeat;\
+ 	{
+ 		AscCommon.baseEditorsApi.prototype.onDocumentContentReady.call(this);
+ 		let logicDocument = this.private_GetLogicDocument();
++		// The desktop app opens Markdown as the docx the converter makes of it
++		if (logicDocument && /\.md$/i.test(this.documentTitle))
++			SetMarkdownJapanese(logicDocument);
+ 		let oform = logicDocument ? logicDocument.GetOFormDocument() : null;
+ 		if (oform && oform.isAllRolesFilled())
+ 		{
