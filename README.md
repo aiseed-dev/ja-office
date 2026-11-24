@@ -164,6 +164,15 @@ Word は、漢字・かなと英字・数字の間を少し空けます(「日�
 - 漢字・かなと、英字・数字が隣り合うところで、前の字の後ろを文字の大きさの 4 分の 1 空けます(四分アキ)。
 - 空白、約物(「」、。など)、全角の英数字の隣は空けません。
 
+### Markdown(文書)
+
+Markdown(.md)は、変換器が HTML を通して文書にします。そのとき、すべての字が Arial になり、言語は英語(日本語の部分は中国語)になります。
+字の大きさは、ふつうの段落が 10pt、番号リストと箇条書きが 12pt で、そろっていません。
+
+- .md を開いたときは、日本語の文書として扱います。言語を日本語にし、日本語の書体を BIZ UDゴシックにします。英字は Arial のままです。
+- 本文、番号リスト、箇条書き、表のセルの字の大きさを、10.5pt にそろえます。見出しの大きさは変えません。
+- デスクトップ版は、.md を docx として開くので、文書の名前の `.md` で見分けます。
+
 ## 自分で組み立てる(Euro-Office)
 
 ダウンロードの代わりに、手元で公式の Euro-Office 9.3.8 にパッチを当てることもできます。
@@ -264,6 +273,8 @@ ONLYOFFICE の sdkjs で回すときは、`SDKJS=work/sdkjs` を前に付けま�
 - 日本語と英数字の間の空きの量と、行末の扱いは、まだ Word と比べていません。
   今は、行末の字の後ろの空きも、行に収まるかどうかに数えます。
 - PHONETIC で、Excel で付けたふりがなを返すこと。ふりがなは変換器(core)で消えるので、sdkjs だけでは直せません。
+- Markdown の番号リストの番号(1. 2.)の書体。番号の書体は、変換器が別に書いています。
+- Markdown のまま保存すると、見出しが太字の段落になり、区切りの線(---)が画像になります。保存は変換器(core)がします。
 - Euro-Office の Mac 版を、実際の Mac で動かすこと。
 
 ## 参考: ONLYOFFICE に当てる
@@ -389,6 +400,9 @@ JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
   with hiragana and half-width katakana turned into katakana. YEN, the Japanese name of DOLLAR, shows whole yen
   by default and the minus after the yen sign (¥1,235, ¥-1,234.57). JIS is kept as DBCS in files, as Excel does;
   the answers are those of Excel for Windows in Japanese.
+- A Markdown file (.md) opened in the desktop app is set as a Japanese document: Japanese as the language,
+  BIZ UDGothic for Japanese text (Latin text stays in Arial), and 10.5pt for paragraphs, numbered and bullet
+  lists and table cells alike (the converter's HTML gives 10pt and 12pt, all in Arial, in English).
 
 Only the editors (sdkjs and web-apps) are changed. What needs the converter (core), such as vertical text for a
 whole section, ruby and keeping furigana, is not fixed here.
