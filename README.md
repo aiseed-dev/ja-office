@@ -31,11 +31,13 @@ Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない
   文書をダブルクリックで開けます。公式の Euro-Office の .deb と同じ場所に入るので、公式の版と入れ替わります。
   公式の版に戻すときは、公式の .deb を入れ直します。
 - ほかの Linux: tar.xz を展開したフォルダーの `ja-office-fixes` を実行します。
-- Windows: 展開したフォルダーの `DesktopEditors.exe` を実行します。
+- Windows: 展開したフォルダーの `DesktopEditors.exe` を実行します。フォルダーは、たとえば
+  `%LOCALAPPDATA%\Programs\` に置き、`DesktopEditors.exe` のショートカットをスタートメニューに作ると使いやすくなります。
 - Mac: 展開した「Office (Euro-Office).app」を「アプリケーション」に入れます。この Mac 用の署名ではないので、
   初めの 1 回は、ターミナルで `xattr -dr com.apple.quarantine "/Applications/Office (Euro-Office).app"` を実行してから開きます。
-- 確かめたのは、Linux(x86_64)の Flatpak と tar.xz です。.deb は、Debian 13 で入れられるかの試しだけをしました。
-  Windows 版は 9.3.6 のときに確かめました。Mac 版と、arm(aarch64、arm64)の版は、まだ実際の機械で動かしていません。
+- 確かめたのは、Linux(x86_64)の Flatpak と tar.xz、Windows(x64)の zip です。
+  Windows の zip は、Windows 11(日本語)で、公開した 9.3.8 の物を開いて確かめました。
+  .deb は、Debian 13 で入れられるかの試しだけをしました。Mac 版と、arm(aarch64、arm64)の版は、まだ実際の機械で動かしていません。
 
 ダウンロードは、Euro-Office の公式の版ではありません。中の `JA-OFFICE-FIXES.txt` に、変えた所、日付、元のコードの場所を書いています。
 
@@ -365,8 +367,8 @@ release by GitHub Actions (`.github/workflows/euro-office-release.yml`):
 - a `.zip` for a Mac with Apple silicon (move "Office (Euro-Office).app" to Applications and run
   `xattr -dr com.apple.quarantine "/Applications/Office (Euro-Office).app"` once).
 
-The x86_64 Flatpak and tar.xz were tried on Linux, the deb only in apt's simulation on Debian 13, and Windows with
-9.3.6; the Mac and arm builds have not been run on real machines yet. They are not official Euro-Office builds;
+The x86_64 Flatpak and tar.xz were tried on Linux, the Windows x64 zip of 9.3.8 on Windows 11 (in Japanese), and
+the deb only in apt's simulation on Debian 13; the Mac and arm builds have not been run on real machines yet. They are not official Euro-Office builds;
 JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
 
 ### What is fixed
