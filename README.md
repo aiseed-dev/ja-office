@@ -173,12 +173,15 @@ Markdown(.md)は、変換器が HTML を通して文書にします。そのと�
 用紙はレターです。字の大きさは、ふつうの段落が 10pt、番号リストと箇条書きが 12pt で、そろっていません。
 
 - .md を開いたときは、日本語の文書として扱います。言語を日本語にし、日本語の書体を BIZ UDゴシックにします。英字は Arial のままです。
+  BIZ UDゴシックが無いときは、その OS の日本語のゴシック体にします(Mac はヒラギノ角ゴシック、Windows は游ゴシックかメイリオ、Linux は Noto Sans CJK JP か IPAexゴシック)。
 - 本文、番号リスト、箇条書き、表のセルの字の大きさを、10.5pt にそろえます。見出しの大きさは変えません。
 - 用紙を A4 にします。
 - デスクトップ版は、.md を docx として開くので、文書の名前の `.md` で見分けます。
 - デスクトップ版は、保存や PDF への書き出しのとき、開いたファイルにエディターでの変更を当てます。そのため、この直しも開いた後の変更として行います。
   .md を開くと、文書は「変更あり」になります。閉じるときに保存を聞かれたら、保存しなくてかまいません。
 - Windows 11 で、.md を開いて PDF に書き出し、A4、10.5pt、BIZ UDゴシックになることを確かめました。
+- Linux で、表のある .md を開き、エラーが出ないこと、表の中も 10.5pt と日本語になることを確かめました。
+  BIZ UDゴシックを隠すと Noto Sans CJK JP になることも、確かめました。Mac では試していません。
 
 ## 自分で組み立てる(Euro-Office)
 
@@ -413,7 +416,8 @@ JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
   by default and the minus after the yen sign (¥1,235, ¥-1,234.57). JIS is kept as DBCS in files, as Excel does;
   the answers are those of Excel for Windows in Japanese.
 - A Markdown file (.md) opened in the desktop app is set as a Japanese document: Japanese as the language,
-  BIZ UDGothic for Japanese text (Latin text stays in Arial), 10.5pt for paragraphs, numbered and bullet
+  BIZ UDGothic for Japanese text (or else the Japanese gothic font of the system: Hiragino Sans, Yu Gothic,
+  Meiryo, Noto Sans CJK JP or IPAexGothic; Latin text stays in Arial), 10.5pt for paragraphs, numbered and bullet
   lists and table cells alike, and A4 paper (the converter's HTML gives 10pt and 12pt, all in Arial, in
   English, on Letter). It is done as a change after opening, as the desktop app saves and exports (to PDF too)
   the file it opened with the changes made in the editor, so the document opens as changed.

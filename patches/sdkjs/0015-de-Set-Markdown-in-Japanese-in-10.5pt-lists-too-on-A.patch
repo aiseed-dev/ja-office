@@ -9,21 +9,28 @@ on Letter paper, leaves the size of paragraphs to the editor's default
 (10pt) and gives numbered and bullet lists the 12pt of its "normal"
 style. The desktop app opens it as that docx, so the editor knows it by
 the .md of the title. A Markdown file opened here is Japanese: once it
-is open, one action gives its styles Japanese as the language and
-BIZ UDGothic for East Asian text, makes 10.5pt the default size and that
-of the default paragraph style, and sets the page to A4. It is an
-action, as the desktop app saves and exports (to PDF too) the file it
-opened with the changes of the editor; the document opens as changed.
-Headings keep their sizes, which their character styles give.
+is open, one action gives its styles Japanese as the language and BIZ
+UDGothic for East Asian text, makes 10.5pt the default size and that of
+the default paragraph style, and sets the page to A4. It is an action,
+as the desktop app saves and exports (to PDF too) the file it opened
+with the changes of the editor; the document opens as changed. Headings
+keep their sizes, which their character styles give. Only the fonts of
+the file are loaded when it opens, and text in a font that is not loaded
+can't be laid out: the font, by the English name of the font list, is
+loaded first. Where BIZ UDGothic is not installed, the Japanese gothic
+font of the system is taken (Hiragino Sans on macOS, Yu Gothic or Meiryo
+on Windows, Noto Sans CJK JP or IPAexGothic on Linux). The text, in
+tables too, then has the properties of the new styles worked out again,
+and the document is laid out from the start.
 ---
- word/api.js | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ word/api.js | 79 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 79 insertions(+)
 
 diff --git a/word/api.js b/word/api.js
-index 957bd67..ff29668 100644
+index 957bd67..ae0bb02 100644
 --- a/word/api.js
 +++ b/word/api.js
-@@ -1439,6 +1439,45 @@ background-repeat: no-repeat;\
+@@ -1439,6 +1439,70 @@ background-repeat: no-repeat;\
  		g_oIdCounter.Set_Load(true);
  		AscFonts.IsCheckSymbols = true;
  	};
@@ -35,14 +42,27 @@ index 957bd67..ff29668 100644
 +	// Japanese text, on A4. This is an action of its own, as the desktop app
 +	// saves and exports the file it opened with the changes of the editor, so
 +	// the document opens as changed.
-+	function SetMarkdownJapanese(logicDocument)
++	// BIZ UDGothic, or else the Japanese gothic font the system has (macOS,
++	// Windows, Linux), by the names of the font list, which are the English ones
++	var MARKDOWN_FONTS = ["BIZ UDGothic", "Hiragino Sans", "Hiragino Kaku Gothic ProN",
++		"Yu Gothic", "Meiryo", "Noto Sans CJK JP", "IPAexGothic", "IPAGothic"];
++	function GetMarkdownFont()
++	{
++		for (var i = 0; i < MARKDOWN_FONTS.length; ++i)
++		{
++			if (undefined !== AscFonts.g_map_font_index[MARKDOWN_FONTS[i]])
++				return MARKDOWN_FONTS[i];
++		}
++		return MARKDOWN_FONTS[0];
++	}
++	function SetMarkdownJapanese(logicDocument, fontName)
 +	{
 +		var styles = logicDocument.Styles;
 +		function japanese(textPr, size)
 +		{
 +			var copy = textPr.Copy();
 +			if (copy.RFonts.EastAsia)
-+				copy.RFonts.EastAsia = {Name : "BIZ UDゴシック", Index : -1};
++				copy.RFonts.EastAsia = {Name : fontName, Index : -1};
 +			if (undefined !== copy.Lang.Val)
 +				copy.Lang.Val = lcid_jaJP;
 +			if (undefined !== copy.Lang.EastAsia)
@@ -64,18 +84,42 @@ index 957bd67..ff29668 100644
 +		}
 +		styles.Set_DefaultTextPr(japanese(styles.Default.TextPr, 10.5));
 +		logicDocument.SectPr.SetPageSize(210, 297);
++		// The text keeps the properties worked out from the old styles
++		// otherwise (those of character styles and tables too)
++		logicDocument.GetAllTables().forEach(function(table)
++		{
++			table.Recalc_CompiledPr2();
++		});
++		logicDocument.GetAllParagraphs({All : true}).forEach(function(paragraph)
++		{
++			paragraph.Recalc_CompiledPr();
++			paragraph.Recalc_RunsCompiledPr();
++		});
 +		logicDocument.FinalizeAction();
++		logicDocument.RecalculateFromStart(true);
 +	}
  	function AfterOpenDocument(data, size)
  	{
  		if (History && History.Update_FileDescription)
-@@ -8252,6 +8291,9 @@ background-repeat: no-repeat;\
+@@ -8252,6 +8316,21 @@ background-repeat: no-repeat;\
  	{
  		AscCommon.baseEditorsApi.prototype.onDocumentContentReady.call(this);
  		let logicDocument = this.private_GetLogicDocument();
 +		// The desktop app opens Markdown as the docx the converter makes of it
 +		if (logicDocument && /\.md$/i.test(this.documentTitle))
-+			SetMarkdownJapanese(logicDocument);
++		{
++			// Only the fonts of the file are loaded: load the one for the
++			// Japanese text first, as text in a font not loaded can't be laid out
++			let fontName = GetMarkdownFont();
++			let fontInfo = AscFonts.g_fontApplication.GetFontInfo(fontName);
++			let isAsync  = AscCommon.g_font_loader.LoadFont(fontInfo, function()
++			{
++				this.sync_EndAction(c_oAscAsyncActionType.Information, c_oAscAsyncAction.LoadFont);
++				SetMarkdownJapanese(logicDocument, fontName);
++			});
++			if (false === isAsync)
++				SetMarkdownJapanese(logicDocument, fontName);
++		}
  		let oform = logicDocument ? logicDocument.GetOFormDocument() : null;
  		if (oform && oform.isAllRolesFilled())
  		{
