@@ -167,6 +167,14 @@ Word は、漢字・かなと英字・数字の間を少し空けます(「日�
 - 漢字・かなと、英字・数字が隣り合うところで、前の字の後ろを文字の大きさの 4 分の 1 空けます(四分アキ)。
 - 空白、約物(「」、。など)、全角の英数字の隣は空けません。
 
+### 綴りの確かめ(文書)
+
+公式の版は、日本語の字にも綴りの確かめをして、ほとんどの語の下に赤い波線を引きます。
+日本語の辞書は無く、日本語の字も、英語などの言語の印のまま調べるためです。
+
+- かな、漢字、全角の英数字を含む語は、綴りを確かめません。Word も、日本語の綴りは確かめません。
+- 英字だけの語は、これまでどおり確かめます。韓国語なども、これまでどおりです。
+
 ### Markdown(文書)
 
 Markdown(.md)は、変換器が HTML を通して文書にします。そのとき、すべての字が Arial になり、言語は英語(日本語の部分は中国語)になります。
@@ -421,6 +429,8 @@ JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
   lists and table cells alike, and A4 paper (the converter's HTML gives 10pt and 12pt, all in Arial, in
   English, on Letter). It is done as a change after opening, as the desktop app saves and exports (to PDF too)
   the file it opened with the changes made in the editor, so the document opens as changed.
+- Words with kana, kanji or full-width letters are not spell-checked (there is no Japanese dictionary,
+  and Word checks no Japanese spelling); before, nearly every Japanese word got a red line.
 
 Only the editors (sdkjs and web-apps) are changed. What needs the converter (core), such as vertical text for a
 whole section, ruby and keeping furigana, is not fixed here.
