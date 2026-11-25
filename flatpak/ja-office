@@ -1,5 +1,5 @@
 #!/bin/sh
-# Start the patched Euro-Office in the Flatpak, as usr/bin/euro-office-euro-office starts it
+# Start ja-office (the patched Euro-Office) in the Flatpak, as usr/bin/euro-office-euro-office starts it
 APP_PATH=/app/euro-office
 export LD_LIBRARY_PATH=$APP_PATH:$APP_PATH/converter${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export LD_PRELOAD=$APP_PATH/libcef.so

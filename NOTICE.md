@@ -76,17 +76,17 @@ The same patches apply to Euro-Office (https://github.com/Euro-Office), a
 fork of ONLYOFFICE licensed under the GNU Affero General Public License
 v3.0. `build.py` builds it with them (ONLYOFFICE with `--target onlyoffice`).
 
-The downloads of the patched Euro-Office (the releases of this repository,
+The downloads of the patched Euro-Office, named ja-office (the releases of this repository,
 built by `.github/workflows/euro-office-release.yml`) are modified versions
 of Euro-Office. They are not official Euro-Office builds. Each one has
-JA-OFFICE-FIXES.txt, which says what was changed, when, and where the source
+JA-OFFICE.txt, which says what was changed, when, and where the source
 is: the patches of this repository at the commit it names, applied to the
 Euro-Office commits in `build.py`; the rest is the official release of
 https://github.com/Euro-Office/DesktopEditors.
 
 The Flatpak download also has MIT Kerberos (krb5 1.22.2,
 https://kerberos.org, built from its source by
-`flatpak/io.github.aiseed_dev.JaOfficeFixes.yml`), as Euro-Office's Qt needs
+`flatpak/io.github.aiseed_dev.JaOffice.yml`), as Euro-Office's Qt needs
 libgssapi_krb5 and the Flatpak runtime lacks it. Its license is in the
 Flatpak at /app/share/licenses/krb5/NOTICE.
 
@@ -100,6 +100,11 @@ No modified ONLYOFFICE binaries are distributed here: ONLYOFFICE's
 additional terms ask to keep its logo and give no right to its name.
 `build.py` downloads the official release and applies the patches on the
 user's machine. Patched builds are offered only for Euro-Office (see above).
+
+This project is not affiliated with Euro-Office either. The downloads are
+named ja-office; the name Euro-Office is used only to say what they are made
+from. The title and logo inside the app are Euro-Office's, as in the
+official release, and are not changed.
 
 ## Credits
 

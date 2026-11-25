@@ -1,36 +1,40 @@
-# ja-office-fixes
+# ja-office
 
 Euro-Office の文書エディターと表計算で、日本語の行の折り返し・縦書き・和暦・関数・漢数字・書体と、Markdown の開き方を直すパッチです。
-パッチを当てた Euro-Office 9.3.8(Linux 版、Windows 版、Mac 版)を、[Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
+パッチを当てた Euro-Office 9.3.8(Linux 版、Windows 版、Mac 版)を、ja-office の名前で、[Releases](https://github.com/aiseed-dev/ja-office/releases) から
 ダウンロードできます。
 同じパッチは、Euro-Office の元になった ONLYOFFICE にも当たります([参考: ONLYOFFICE に当てる](#参考-onlyoffice-に当てる))。
 Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない、独自の取り組みです。
+前の名前は ja-office-fixes です(2026 年 11 月に変えました)。
 
 [English](#english)
 
 ## ダウンロード(Euro-Office)
 
-パッチを当てた Euro-Office 9.3.8 は、このリポジトリの [Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) から
+パッチを当てた Euro-Office 9.3.8 は、このリポジトリの [Releases](https://github.com/aiseed-dev/ja-office/releases) から
 ダウンロードできます。組み立ては要りません。GitHub Actions(`.github/workflows/euro-office-release.yml`)が、
 公式の版にパッチを当てて作ります。
 
 | ファイル | 使う所 |
 |---|---|
-| `ja-office-fixes-euro-office-9.3.8-linux-x86_64.flatpak`(`-linux-aarch64`) | Flatpak の使える Linux |
-| `ja-office-fixes-euro-office_9.3.8-0+ja<日付>_amd64.deb`(`_arm64.deb`) | Ubuntu、Debian |
-| `ja-office-fixes-euro-office-9.3.8-linux-x86_64.tar.xz`(`-linux-aarch64`) | ほかの Linux |
-| `ja-office-fixes-euro-office-9.3.8-windows-x64.zip`(`-windows-arm64`) | Windows |
-| `ja-office-fixes-euro-office-9.3.8-macos-arm64.zip` | Mac(Apple シリコン) |
+| `ja-office-9.3.8-linux-x86_64.flatpak`(`-linux-aarch64`) | Flatpak の使える Linux |
+| `ja-office_9.3.8-0+ja<日付>_amd64.deb`(`_arm64.deb`) | Ubuntu、Debian |
+| `ja-office-9.3.8-linux-x86_64.tar.xz`(`-linux-aarch64`) | ほかの Linux |
+| `ja-office-9.3.8-windows-x64.zip`(`-windows-arm64`) | Windows |
+| `ja-office-9.3.8-macos-arm64.zip` | Mac(Apple シリコン) |
 
-- Flatpak: `flatpak install --user ./ja-office-fixes-euro-office-9.3.8-linux-x86_64.flatpak` で入れます。
+- Flatpak: `flatpak install --user ./ja-office-9.3.8-linux-x86_64.flatpak` で入れます。
   ファイルをダブルクリックして、「ソフトウェア」から入れることもできるはずです(試していません)。土台(org.freedesktop.Platform 26.08)は
   Flathub から入ります。公式の Euro-Office とは別のアプリとして入るので、両方を使えます。
   自動では新しい版になりません。新しい版は、新しいファイルを入れ直します。
   fcitx5 と Mozc で、日本語を入力できることを確かめました。
-- Ubuntu、Debian: `sudo apt install ./ja-office-fixes-euro-office_*.deb` で入れます。メニューに Euro-Office が出て、
+  前の名前(ja-office-fixes)の Flatpak とは別のアプリとして入ります。前の物は、
+  `flatpak uninstall --user io.github.aiseed_dev.JaOfficeFixes` で消します。
+- Ubuntu、Debian: `sudo apt install ./ja-office_*.deb` で入れます。メニューに ja-office が出て、
   文書をダブルクリックで開けます。公式の Euro-Office の .deb と同じ場所に入るので、公式の版と入れ替わります。
+  前の名前(ja-office-fixes-euro-office)の .deb とも入れ替わります。
   公式の版に戻すときは、公式の .deb を入れ直します。
-- ほかの Linux: tar.xz を展開したフォルダーの `ja-office-fixes` を実行します。
+- ほかの Linux: tar.xz を展開したフォルダーの `ja-office` を実行します。
 - Windows: 展開したフォルダーの `DesktopEditors.exe` を実行します。フォルダーは、たとえば
   `%LOCALAPPDATA%\Programs\` に置き、`DesktopEditors.exe` のショートカットをスタートメニューに作ると使いやすくなります。
 - Mac: 展開した「Office (Euro-Office).app」を「アプリケーション」に入れます。この Mac 用の署名ではないので、
@@ -39,7 +43,8 @@ Euro-Office と ONLYOFFICE(Ascensio System SIA)のどちらとも関係のない
   Windows の zip は、Windows 11(日本語)で、公開した 9.3.8 の物を開いて確かめました。
   .deb は、Debian 13 で入れられるかの試しだけをしました。Mac 版と、arm(aarch64、arm64)の版は、まだ実際の機械で動かしていません。
 
-ダウンロードは、Euro-Office の公式の版ではありません。中の `JA-OFFICE-FIXES.txt` に、変えた所、日付、元のコードの場所を書いています。
+ダウンロードは、Euro-Office の公式の版ではありません。中の `JA-OFFICE.txt` に、変えた所、日付、元のコードの場所を書いています。
+ファイルとメニューの名前は ja-office ですが、アプリの中の題とロゴは、Euro-Office の物のままです。
 
 ## 何を直すか
 
@@ -204,13 +209,13 @@ Euro-Office の Mac 版は、Apple シリコン用だけです。
 - Node.js(`node`、`npm`、`npx`。組み立てに使います)
 - ディスクの空き 約 6GB(Linux。ダウンロード用のファイルも作るときは、さらに約 6GB)
 - Linux: xdg-utils(ダブルクリックで開くアプリを設定するのに使います。無いときは、この設定だけを飛ばします)
-- Windows: 長いパスを扱えるように、リポジトリはドライブの近く(`C:\src\ja-office-fixes` など)に置いてください。
+- Windows: 長いパスを扱えるように、リポジトリはドライブの近く(`C:\src\ja-office` など)に置いてください。
 
 ### 組み立てる
 
 ```bash
-git clone https://github.com/aiseed-dev/ja-office-fixes.git
-cd ja-office-fixes
+git clone https://github.com/aiseed-dev/ja-office.git
+cd ja-office
 python3 build.py all
 ```
 
@@ -228,10 +233,10 @@ python3 build.py all
    組み立てでは、npm の部品(約 115MB)を取ってきます。
 4. 2 のアプリのエディターと画面を、組み立てた物に入れ替えます。
 5. メニューに足します。
-   - Linux: メニューに「ja-office-fixes (Euro-Office)」を足します(`~/.local/share/applications/ja-office-fixes-euro-office.desktop`)。
+   - Linux: メニューに「ja-office」を足します(`~/.local/share/applications/ja-office.desktop`)。
      文書(docx・doc・odt・rtf)をダブルクリックしたときに開くアプリも、これにします。
    - Mac: アプリは「アプリケーション」(ホームのフォルダーの中)にあります。docx を開くアプリの変え方を表示します。
-   - Windows: スタートメニューに「ja-office-fixes (Euro-Office)」を足します。docx を開くアプリの変え方を表示します。
+   - Windows: スタートメニューに「ja-office」を足します。docx を開くアプリの変え方を表示します。
 
 取ってきた物は、すべて `work/euro-office/` に入ります。2 回目からは取り直しません。
 インストール済みの Euro-Office は書き換えません。
@@ -247,7 +252,7 @@ Mac 版は、まだ実際の Mac で動かしていません。
 
 ### 使う
 
-- 起動: メニューの「ja-office-fixes (Euro-Office)」(Mac は「Office (Euro-Office)」)か、`python3 build.py run 文書.docx`
+- 起動: メニューの「ja-office」(Mac は「Office (Euro-Office)」)か、`python3 build.py run 文書.docx`
 - 直してあるのは文書(docx など)と表計算(xlsx など)です。プレゼンテーションは公式のままです。
 - パッチを新しくする: `git pull` の後に `python3 build.py all`。パッチが変わっていれば当て直します。
   開いているときは、すべての窓を閉じてから、もう一度起動します。
@@ -308,16 +313,16 @@ ONLYOFFICE の、手を入れた実行ファイルは配りません(下の「�
 Linux(x86_64)、git、Python 3.12 以上、Node.js(`node` と `npx`)、ディスクの空き 約 3.8GB が要ります。
 
 ```bash
-git clone https://github.com/aiseed-dev/ja-office-fixes.git
-cd ja-office-fixes
+git clone https://github.com/aiseed-dev/ja-office.git
+cd ja-office
 python3 build.py all --target onlyoffice
 ```
 
 - ONLYOFFICE のエディターのプログラム(sdkjs、約 320MB)、画面のプログラム(web-apps、約 1GB)、
   公式の Linux 版 9.4.0(約 345MB)を GitHub から取ってきて、`work/` で組み立て、入れ替えます。
-- メニューに「ja-office-fixes」を足し、文書(docx・doc・odt・rtf)をダブルクリックしたときに開くアプリにします。
+- メニューに「ja-office (reference)」を足し、文書(docx・doc・odt・rtf)をダブルクリックしたときに開くアプリにします。
 - インストール済みの ONLYOFFICE は書き換えません。残しておいても、別に動きます。
-- 起動は、メニューの「ja-office-fixes」か `python3 build.py run --target onlyoffice 文書.docx` です。
+- 起動は、メニューの「ja-office (reference)」か `python3 build.py run --target onlyoffice 文書.docx` です。
 - `restore`、`install`、`menu`、`unmenu` も、`--target onlyoffice` を付けて同じに使えます。
 
 ### Mac
@@ -364,27 +369,30 @@ Mac(Apple シリコンか Intel)、git、Python 3.12 以上、Node.js、ディ�
 Patches for the document and spreadsheet editors of Euro-Office 9.3.8 that fix Japanese line breaking, vertical
 writing, dates in the Japanese era, Japanese text functions, Japanese numerals, the Japanese theme fonts and the way
 Markdown opens.
-Euro-Office with the patches can be downloaded for Linux, Windows and a Mac. The same patches apply to ONLYOFFICE
-Desktop Editors 9.4.0, from which Euro-Office was forked. Not affiliated with Euro-Office or with Ascensio System SIA.
+Euro-Office with the patches can be downloaded, under the name ja-office, for Linux, Windows and a Mac. The same
+patches apply to ONLYOFFICE Desktop Editors 9.4.0, from which Euro-Office was forked. Not affiliated with Euro-Office
+or with Ascensio System SIA. The name was ja-office-fixes until November 2026.
 
 ### Download (Euro-Office)
 
 Euro-Office 9.3.8 with the patches can be downloaded from the
-[Releases](https://github.com/aiseed-dev/ja-office-fixes/releases) of this repository, built from the official
+[Releases](https://github.com/aiseed-dev/ja-office/releases) of this repository, built from the official
 release by GitHub Actions (`.github/workflows/euro-office-release.yml`):
 
-- a `.flatpak` bundle (`flatpak install --user ./ja-office-fixes-euro-office-*.flatpak`; the runtime comes from
-  Flathub, and it sits beside the official Euro-Office; Japanese input with fcitx5 and Mozc works in it);
-- a `.deb` for Ubuntu and Debian (`sudo apt install ./ja-office-fixes-euro-office_*.deb`; it takes the place of
-  the official Euro-Office package);
-- a `.tar.xz` for other Linux (run `ja-office-fixes` in the folder);
+- a `.flatpak` bundle (`flatpak install --user ./ja-office-*.flatpak`; the runtime comes from
+  Flathub, and it sits beside the official Euro-Office; Japanese input with fcitx5 and Mozc works in it; the
+  Flatpak under the old name stays until `flatpak uninstall --user io.github.aiseed_dev.JaOfficeFixes`);
+- a `.deb` for Ubuntu and Debian (`sudo apt install ./ja-office_*.deb`; it takes the place of
+  the official Euro-Office package and of the deb under the old name, and is ja-office in the menu);
+- a `.tar.xz` for other Linux (run `ja-office` in the folder);
 - a `.zip` for Windows (run `DesktopEditors.exe`);
 - a `.zip` for a Mac with Apple silicon (move "Office (Euro-Office).app" to Applications and run
   `xattr -dr com.apple.quarantine "/Applications/Office (Euro-Office).app"` once).
 
 The x86_64 Flatpak and tar.xz were tried on Linux, the Windows x64 zip of 9.3.8 on Windows 11 (in Japanese), and
 the deb only in apt's simulation on Debian 13; the Mac and arm builds have not been run on real machines yet. They are not official Euro-Office builds;
-JA-OFFICE-FIXES.txt in each says what was changed and where the source is.
+JA-OFFICE.txt in each says what was changed and where the source is. The files and the menu entry are named
+ja-office; the title and logo inside the app are still Euro-Office's.
 
 ### What is fixed
 
@@ -442,8 +450,8 @@ on Linux (x86_64 and arm64), a Mac (Apple silicon) or Windows (x64 and arm64). Y
 and Node.js (node, npm and npx).
 
 ```bash
-git clone https://github.com/aiseed-dev/ja-office-fixes.git
-cd ja-office-fixes
+git clone https://github.com/aiseed-dev/ja-office.git
+cd ja-office
 python3 build.py all
 ```
 
@@ -453,12 +461,12 @@ Linux, and about 6 GB more for `package`), patches and builds the document and s
 them into the app:
 
 - Linux: euro-office-euro-office-9.3.8-0-x86_64.tar.xz (about 480 MB) is unpacked, and
-  "ja-office-fixes (Euro-Office)" is added to the menu and opens documents (docx, doc, odt, rtf) on a double-click.
+  "ja-office" is added to the menu and opens documents (docx, doc, odt, rtf) on a double-click.
 - Mac: the app of Euro-Office-DesktopEditors-9.3.8-0-macos-arm64.dmg (about 690 MB) is copied into
   `~/Applications/Office (Euro-Office).app` and signed again for this Mac only, with the quarantine mark taken off.
 - Windows: Euro-Office-DesktopEditors-9.3.8-0-windows-x64.zip (about 770 MB) is unpacked into
-  `work\euro-office\desktop\Euro-Office\`, and "ja-office-fixes (Euro-Office)" is added to the Start menu.
-  Keep the repository near the root of a drive (`C:\src\ja-office-fixes`), as some paths are long.
+  `work\euro-office\desktop\Euro-Office\`, and "ja-office" is added to the Start menu.
+  Keep the repository near the root of a drive (`C:\src\ja-office`), as some paths are long.
 
 An installed Euro-Office is not changed. `run`, `restore`, `install`, `unmenu` and `package` (which makes the
 downloads in `dist/`) work the same way. The Windows steps ran through (with 9.3.6) on Windows 11 (x64)
@@ -472,7 +480,7 @@ distributed, as ONLYOFFICE's additional terms ask to keep its logo and give no r
 downloads the official ONLYOFFICE and applies the patches on your machine.
 
 - Linux (x86_64): `python3 build.py all --target onlyoffice` fetches sdkjs, web-apps and the official package
-  9.4.0 into `work/`, patches them, adds "ja-office-fixes" to the menu and makes it open documents on a double-click. An installed
+  9.4.0 into `work/`, patches them, adds "ja-office (reference)" to the menu and makes it open documents on a double-click. An installed
   ONLYOFFICE is not changed. You need about 3.8 GB of free disk space.
 - Mac (Apple silicon or Intel): `python3 build.py all --target onlyoffice` copies the app of the official disk
   image 9.4.0 into `~/Applications/Office.app` under the name "Office", patches it and signs it again for this Mac only.

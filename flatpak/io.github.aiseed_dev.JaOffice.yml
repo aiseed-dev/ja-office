@@ -1,10 +1,10 @@
 # Euro-Office with the Japanese patches, as a Flatpak bundle (build.py
 # package makes it from the patched app in work/euro-office/desktop)
-id: io.github.aiseed_dev.JaOfficeFixes
+id: io.github.aiseed_dev.JaOffice
 runtime: org.freedesktop.Platform
 runtime-version: '26.08'
 sdk: org.freedesktop.Sdk
-command: ja-office-fixes
+command: ja-office
 finish-args:
   - --share=ipc
   - --share=network
@@ -46,12 +46,12 @@ modules:
     buildsystem: simple
     build-commands:
       - cp -a opt/euro-office/euro-office /app/euro-office
-      - install -Dm755 ja-office-fixes /app/bin/ja-office-fixes
+      - install -Dm755 ja-office /app/bin/ja-office
       - for size in 16 24 32 48 64 128 256; do install -Dm644 usr/share/icons/hicolor/${size}x${size}/apps/euro-office-euro-office.png
         /app/share/icons/hicolor/${size}x${size}/apps/${FLATPAK_ID}.png; done
       # The package's own entry, started by our launcher, under our name
-      - sed -e 's|^Exec=/usr/bin/euro-office-euro-office|Exec=ja-office-fixes|'
-        -e "s|^Icon=.*|Icon=${FLATPAK_ID}|" -e '0,/^Name=.*/s//Name=ja-office-fixes (Euro-Office)/'
+      - sed -e 's|^Exec=/usr/bin/euro-office-euro-office|Exec=ja-office|'
+        -e "s|^Icon=.*|Icon=${FLATPAK_ID}|" -e '0,/^Name=.*/s//Name=ja-office/'
         usr/share/applications/euro-office-euro-office.desktop > ${FLATPAK_ID}.desktop
       - install -Dm644 ${FLATPAK_ID}.desktop /app/share/applications/${FLATPAK_ID}.desktop
       - install -Dm644 ${FLATPAK_ID}.metainfo.xml /app/share/metainfo/${FLATPAK_ID}.metainfo.xml
@@ -64,6 +64,6 @@ modules:
           - orig-web-apps-documenteditor
           - orig-formula-lang-ja.json
       - type: file
-        path: ja-office-fixes
+        path: ja-office
       - type: file
-        path: io.github.aiseed_dev.JaOfficeFixes.metainfo.xml
+        path: io.github.aiseed_dev.JaOffice.metainfo.xml

@@ -42,7 +42,7 @@ this machine (an ad-hoc signature), and the quarantine mark of the download
 is taken off. Which app opens a docx on a double-click is chosen in the
 Finder ("Get Info", "Open with"); menu says how.
 
-The menu entry is ja-office-fixes.desktop in ~/.local/share/applications
+The menu entry is ja-office-reference.desktop in ~/.local/share/applications
 (or $XDG_DATA_HOME/applications). It lists the file types of the package's
 own entry, so the app appears under "Open with" for all of them, and it
 becomes the default app of the word-processing types (DOCUMENTS), so a
@@ -110,7 +110,7 @@ commits in REFS are fixed, so the result is always the same.
   mobile ones).
 * The app starts as its launcher (usr/bin/euro-office-euro-office) starts
   it: LD_LIBRARY_PATH with its folder and converter/, and libcef.so in
-  LD_PRELOAD. The menu entry is ja-office-fixes-euro-office.desktop.
+  LD_PRELOAD. The menu entry is ja-office.desktop.
 * The editors in the Windows zip are the same files as in the Linux package,
   as all of them are built once, on Linux. On Windows the menu is a shortcut
   in the Start menu, which PowerShell makes, and the clones are made without
@@ -123,18 +123,18 @@ commits in REFS are fixed, so the result is always the same.
 ## Downloads
 
 package packs the installed Euro-Office into dist/ for download:
-ja-office-fixes-euro-office-<version>-<platform>.tar.xz on Linux (with a
-launcher, ja-office-fixes, as the package's usr/bin one), .zip on Windows and
+ja-office-<version>-<platform>.tar.xz on Linux (with a
+launcher, ja-office, as the package's usr/bin one), .zip on Windows and
 a zip of the app on a Mac (signed again ad hoc, as for install). On Linux it
-also makes ja-office-fixes-euro-office_<version>-0+ja<date>_<arch>.deb: the
+also makes ja-office_<version>-0+ja<date>_<arch>.deb: the
 official deb with the files install changes put in, and its control renamed
 to conflict with and replace the official package (the same paths, so its
-launcher, menu entry and file types stay), and
-ja-office-fixes-euro-office-<version>-linux-<arch>.flatpak: the app built by
-flatpak/io.github.aiseed_dev.JaOfficeFixes.yml on org.freedesktop.Platform,
+launcher, menu entry and file types stay; the menu entry is named ja-office), and
+ja-office-<version>-linux-<arch>.flatpak: the app built by
+flatpak/io.github.aiseed_dev.JaOffice.yml on org.freedesktop.Platform,
 with krb5 (Qt's network library needs libgssapi_krb5, which the runtime
 lacks); installing the bundle gets the runtime from Flathub. Each has
-JA-OFFICE-FIXES.txt in it: that the build is modified and when, what changed,
+JA-OFFICE.txt in it: that the build is modified and when, what changed,
 and where the source is (AGPL-3.0, sections 5 a and 6). Euro-Office's code has no terms beyond the
 AGPL; ONLYOFFICE's ask to keep its logo and give no right to its name, so
 package refuses the onlyoffice target.
@@ -239,7 +239,7 @@ WEB_DEPLOY = WEBAPPS / "deploy/web-apps/apps/documenteditor/main"
 WEB_FILES = ("app.js", "code.js")
 # The Japanese names of the spreadsheet functions
 FORMULA_NAMES = EDITORS.parent / "web-apps/apps/spreadsheeteditor/main/resources/formula-lang/ja.json"
-BRANCH = "ja-office-fixes"
+BRANCH = "ja-office"
 # The types a double-click opens in the patched app: the ones the word
 # editor handles, as the package's own entry names them
 DOCUMENTS = [
@@ -255,7 +255,7 @@ DOCUMENTS = [
     "application/rtf",
 ]
 MENU = (pathlib.Path(os.environ.get("XDG_DATA_HOME") or pathlib.Path.home() / ".local/share")
-        / ("applications/ja-office-fixes-euro-office.desktop" if EURO else "applications/ja-office-fixes.desktop"))
+        / ("applications/ja-office.desktop" if EURO else "applications/ja-office-reference.desktop"))
 # The bundle identifier of the official Mac app, kept by the copy
 MAC_BUNDLE_ID = "asc.euro-office.Euro-Office" if EURO else "asc.onlyoffice.ONLYOFFICE"
 # What the downloads are called, and where package puts them
@@ -263,7 +263,7 @@ PLATFORM = ("macos-arm64" if MAC else f"windows-{'arm64' if ARM else 'x64'}" if 
             else f"linux-{'aarch64' if ARM else 'x86_64'}")
 DIST = ROOT / "dist"
 # The notice package puts into the app (AGPL-3.0, sections 5 a and 6)
-PACKAGE_NOTICE = """This is Euro-Office {version} with the Japanese patches of ja-office-fixes.
+PACKAGE_NOTICE = """This is ja-office: Euro-Office {version} with the Japanese patches.
 It is a modified version of Euro-Office, made on {date}. It is not an official
 Euro-Office build.
 
@@ -274,23 +274,23 @@ the Japanese function names of the spreadsheet editor
 Everything else is the official release:
 {release}
 
-Source of the changes: https://github.com/aiseed-dev/ja-office-fixes
+Source of the changes: https://github.com/aiseed-dev/ja-office
 (commit {commit}, patches/sdkjs and patches/web-apps), applied to Euro-Office
 sdkjs {sdkjs}, web-apps {webapps} and sdkjs-forms {forms}.
 The source of the rest is at https://github.com/Euro-Office.
 License: GNU AGPL v3.0 (LICENSE.txt).
 
-日本語のパッチ(ja-office-fixes)を当てた Euro-Office {version} です。
+ja-office は、日本語のパッチを当てた Euro-Office {version} です。
 {date} に手を入れた版で、Euro-Office の公式の版ではありません。
 """
 # The name of the deb on Linux
-DEB_NAME = "ja-office-fixes-euro-office"
+DEB_NAME = "ja-office"
 # The Flatpak on Linux
-FLATPAK_ID = "io.github.aiseed_dev.JaOfficeFixes"
+FLATPAK_ID = "io.github.aiseed_dev.JaOffice"
 FLATPAK_MANIFEST = ROOT / "flatpak" / f"{FLATPAK_ID}.yml"
 # The shortcut in the Start menu on Windows
 WIN_SHORTCUT = (pathlib.Path(os.environ.get("APPDATA", "")) / "Microsoft/Windows/Start Menu/Programs"
-                / "ja-office-fixes (Euro-Office).lnk")
+                / "ja-office.lnk")
 
 
 def run(*cmd: str, cwd: pathlib.Path | None = None, env: dict[str, str] | None = None) -> None:
@@ -405,7 +405,7 @@ def apply_patches(repo: pathlib.Path, patches: pathlib.Path) -> None:
     applied. The patches_id() of the patches on BRANCH is kept inside the
     clone's .git"""
     ref = REFS[repo.name]
-    stamp = repo / ".git/ja-office-fixes-patches"
+    stamp = repo / ".git/ja-office-patches"
     want = patches_id(patches, ref)
     have = stamp.read_text().strip() if stamp.exists() else ""
     if git(repo, "branch", "--list", BRANCH).stdout.strip() and have == want:
@@ -423,7 +423,7 @@ def apply_patches(repo: pathlib.Path, patches: pathlib.Path) -> None:
     files = sorted(str(p) for p in patches.glob("*.patch"))
     # git am needs an identity for the commits it makes in the local clone
     try:
-        run("git", "-C", str(repo), "-c", "user.name=ja-office-fixes", "-c", "user.email=ja-office-fixes@localhost",
+        run("git", "-C", str(repo), "-c", "user.name=ja-office", "-c", "user.email=ja-office@localhost",
             "am", "-q", "--3way", "--keep-cr", "-C1", *files)
     except subprocess.CalledProcessError:
         # Leave the clone as it was, so the next run starts again from the tag
@@ -604,7 +604,7 @@ def menu() -> None:
     entry = "\n".join([
         "[Desktop Entry]",
         "Type=Application",
-        "Name=ja-office-fixes (Euro-Office)" if EURO else "Name=ja-office-fixes",
+        "Name=ja-office" if EURO else "Name=ja-office (reference)",
         "GenericName=Office suite",
         "GenericName[ja]=オフィス",
         f"Comment={product} with the Japanese patches",
@@ -665,8 +665,8 @@ def package() -> None:
         release=f"https://github.com/Euro-Office/DesktopEditors/releases/tag/v{VERSION}",
         sdkjs=REFS["sdkjs"], webapps=REFS["web-apps"], forms=REFS["sdkjs-forms"])
     files = APP / "Contents/Resources" if MAC else APP
-    (files / "JA-OFFICE-FIXES.txt").write_text(notice, encoding="utf-8", newline="\r\n" if WIN else None)
-    name = f"ja-office-fixes-euro-office-{VERSION}-{PLATFORM}"
+    (files / "JA-OFFICE.txt").write_text(notice, encoding="utf-8", newline="\r\n" if WIN else None)
+    name = f"ja-office-{VERSION}-{PLATFORM}"
     DIST.mkdir(exist_ok=True)
     if MAC:
         sign()
@@ -679,7 +679,7 @@ def package() -> None:
                 z.write(f, pathlib.Path(name) / f.relative_to(APP))
     else:
         # Started from anywhere, as the package's own launcher starts it
-        launcher = APP / "ja-office-fixes"
+        launcher = APP / "ja-office"
         launcher.write_text(LAUNCHER)
         launcher.chmod(0o755)
         out = DIST / f"{name}.tar.xz"
@@ -705,12 +705,15 @@ def deb() -> pathlib.Path:
     opt = tree / APP.relative_to(PKG)
     changed = [EDITORS / name / script for name in PRODUCTS for script in ("sdk-all-min.js", "sdk-all.js")]
     changed += [WEB_EDITOR / name for name in WEB_FILES] + sorted((WEB_EDITOR / "locale").glob("*.json"))
-    changed += [FORMULA_NAMES, APP / "JA-OFFICE-FIXES.txt"]
+    changed += [FORMULA_NAMES, APP / "JA-OFFICE.txt"]
     for f in changed:
         shutil.copy2(f, opt / f.relative_to(APP))
     for name in PRODUCTS:
         for cache in ("sdk-all.bin", "sdk-all.cache"):
             (opt / EDITORS.relative_to(APP) / name / cache).unlink(missing_ok=True)
+    # Our own name in the menu
+    entry = tree / OWN_ENTRY.relative_to(PKG)
+    entry.write_text(entry.read_text().replace("\nName=Euro-Office\n", "\nName=ja-office\n", 1))
     # The sums dpkg --verify checks, and the size apt shows
     sums, size = [], 0
     for f in sorted(tree.rglob("*")):
@@ -719,20 +722,21 @@ def deb() -> pathlib.Path:
             size += f.stat().st_size
     (tree / "DEBIAN/md5sums").write_text("\n".join(sums) + "\n")
     # Our own name, in place of the official package, which it replaces
+    # (and of ja-office-fixes-euro-office, as it was called before)
     version = f"{VERSION}-0+ja{time.strftime('%Y%m%d')}"
     fields = {"Package": DEB_NAME, "Version": version,
-              "Maintainer": "ja-office-fixes <aiseed-dev@users.noreply.github.com>",
+              "Maintainer": "ja-office <aiseed-dev@users.noreply.github.com>",
               "Installed-Size": str(size // 1024),
-              "Conflicts": "euro-office-euro-office, euro-office-euro-office-enterprise",
-              "Replaces": "euro-office-euro-office",
-              "Homepage": "https://github.com/aiseed-dev/ja-office-fixes"}
+              "Conflicts": "euro-office-euro-office, euro-office-euro-office-enterprise, ja-office-fixes-euro-office",
+              "Replaces": "euro-office-euro-office, ja-office-fixes-euro-office",
+              "Homepage": "https://github.com/aiseed-dev/ja-office"}
     lines = []
     for line in (tree / "DEBIAN/control").read_text().splitlines():
         key = line.split(":", 1)[0]
         if key in fields:
             line = f"{key}: {fields.pop(key)}"
         elif key == "Description":
-            line = f"Description: Euro-Office {VERSION} with the Japanese patches of ja-office-fixes (unofficial)"
+            line = f"Description: Euro-Office {VERSION} with the Japanese patches (unofficial)"
         lines.append(line)
     at = next(i for i, line in enumerate(lines) if line.startswith("Description:"))
     lines[at:at] = [f"{key}: {value}" for key, value in fields.items()]
@@ -764,7 +768,7 @@ def flatpak(name: str) -> pathlib.Path:
 
 # The launcher in the Linux download, after usr/bin/euro-office-euro-office
 LAUNCHER = """#!/bin/sh
-# Start the patched Euro-Office in this folder (ja-office-fixes)
+# Start ja-office (the patched Euro-Office) in this folder
 APP_PATH=$(dirname "$(readlink -f "$0")")
 export LD_LIBRARY_PATH=$APP_PATH:$APP_PATH/converter${LD_LIBRARY_PATH:+:$LD_LIBRARY_PATH}
 export LD_PRELOAD=$APP_PATH/libcef.so
